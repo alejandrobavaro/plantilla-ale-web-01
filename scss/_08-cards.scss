@@ -67,9 +67,7 @@
 
 .card-container {
   display: flex;
+  // flex-direction: row; /* Cambiar la dirección principal a fila */
   justify-content: center;
-  /* Centra horizontalmente */
   align-items: center;
-  /* Centra verticalmente */
-
 }

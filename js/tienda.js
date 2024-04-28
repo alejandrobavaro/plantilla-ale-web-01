@@ -141,65 +141,51 @@ document.addEventListener("DOMContentLoaded", function () {
   // Llamar a la función para cargar los productos cuando la página esté lista
   cargarProductos();
 
+// Función para manejar clics en los botones "Encargar"
+function handleEncargarClick(event) {
+  event.preventDefault();
+  const botonEncargar = event.target.closest('.botonEncargar');
+  if (botonEncargar) {
+    const productoId = botonEncargar.getAttribute("data-producto-id");
+    const color = document.getElementById(`selectColor${productoId}`).value;
+    const talla = document.getElementById(`selectTalla${productoId}`).value;
 
-  // Función para manejar clics en los botones "Encargar"
-  function handleEncargarClick(event) {
-    event.preventDefault();
-    const botonEncargar = event.target.closest('.botonEncargar');
-    if (botonEncargar) {
-      const productoId = botonEncargar.getAttribute("data-producto-id");
-      const color = document.getElementById(`selectColor${productoId}`).value;
-      const talla = document.getElementById(`selectTalla${productoId}`).value;
-
-      const productoSeleccionado = productos.find((producto) => producto.id == productoId);
-      if (productoSeleccionado) {
-        const productoEncargado = {
-          id: productoSeleccionado.id,
-          nombre: productoSeleccionado.nombre,
-          precio: productoSeleccionado.precio,
-          imagen: productoSeleccionado.imagen,
-          color: color,
-          talla: talla
-        };
-        agregarAlCarrito(productoEncargado);
-      } else {
-        console.error("Producto no encontrado");
-      }
+    const productoSeleccionado = productos.find((producto) => producto.id == productoId);
+    if (productoSeleccionado) {
+      const productoEncargado = {
+        id: productoSeleccionado.id,
+        nombre: productoSeleccionado.nombre,
+        precio: productoSeleccionado.precio,
+        imagen: productoSeleccionado.imagen,
+        color: color,
+        talla: talla
+      };
+      agregarAlCarrito(productoEncargado); // Llamar a la función agregarAlCarrito() aquí después de obtener los detalles del producto
+    } else {
+      console.error("Producto no encontrado");
     }
   }
-
-  // Agregar evento de clic para manejar el botón "Encargar"
-  contenedorProductos.addEventListener('click', function (event) {
-    const botonEncargar = event.target.closest('.botonEncargar');
-    if (botonEncargar) {
-      handleEncargarClick(event);
-    }
-  });
-
-
+}
 
 // Función para agregar un producto al carrito
 function agregarAlCarrito(producto) {
+  // console.log("Se está agregando un producto al carrito");
   let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
   carrito.push(producto);
   localStorage.setItem("carrito", JSON.stringify(carrito));
   actualizarCarrito();
   mostrarDetalleProductoAgregado(producto);
 
-  
-  // Mostrar Toast de confirmación
-  Toastify({
-    text: `${producto.nombre} agregado al carrito`,
-    duration: 3000,
-    gravity: "top",
-    position: "left",
-    stopOnFocus: true,
-    className: "iconoToastify", // Clase CSS personalizada
-  }).showToast();
 }
 
 
-
+ // Agregar evento de clic para manejar el botón "Encargar"
+ contenedorProductos.addEventListener('click', function (event) {
+  const botonEncargar = event.target.closest('.botonEncargar');
+  if (botonEncargar) {
+    handleEncargarClick(event);
+  }
+});
 
 
   // Función para mostrar los detalles del producto agregado en el mini carrito
@@ -268,6 +254,7 @@ function agregarAlCarrito(producto) {
     // Enviamos un evento personalizado cuando se elimina un producto
     const eliminarEvento = new CustomEvent("productoEliminado", {
       detail: { index }, // Detalles del producto eliminado (puede ser el ID u otra identificación)
+      
     });
     document.dispatchEvent(eliminarEvento); // Disparamos el evento para notificar a otras páginas
   }
@@ -284,15 +271,26 @@ function agregarAlCarrito(producto) {
     calcularTotalCarrito();
   }
 
-  // Función para calcular el total del carrito
-  function calcularTotalCarrito() {
-    let total = 0;
-    const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    carrito.forEach((producto) => {
-      total += producto.precio;
-    });
-    totalMiniCarrito.textContent = `Total: $${total.toFixed(2)}`;
-  }
+// Función para calcular el total del carrito y mostrar un mensaje Toastify con el nuevo total
+function calcularTotalCarrito() {
+  let total = 0;
+  const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+  carrito.forEach((producto) => {
+    total += producto.precio;
+  });
+  totalMiniCarrito.textContent = `Total: $${total.toFixed(2)}`;
+
+  // Mostrar Toastify con el nuevo total
+  Toastify({
+    text: `Tu total ahora es de $${total.toFixed(2)}`,
+    duration: 3000,
+    gravity: "top",
+    position: "right",
+    stopOnFocus: true,
+    className: "toastify-total", 
+  }).showToast();
+}
+
 
   // Escuchar clics en botones de eliminar y manejarlos
   listaMiniCarrito.addEventListener("click", function (event) {
