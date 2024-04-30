@@ -48,6 +48,14 @@
     margin-bottom: 0.5rem;
   }
 }
+/* Media query para pantallas menores o iguales a 767px */
+@media screen and (max-width: 767px) {
+  .imagen-limitada2 {
+    width: 100%; /* Establecer el ancho al 100% para ocupar el ancho del contenedor */
+    max-width: 30px; /* Establecer un tamaño máximo para la imagen */
+    height: auto; /* Altura automática para mantener la proporción */
+  }
+}
 /* Estilos del Body*/
 html {
   font-size: 100%;
@@ -364,7 +372,7 @@ footer {
 
 .tituloPequeño4 {
   color: rgb(234, 192, 67);
-  font-size: x-small;
+  font-size: xx-small;
 }
 
 .text-muted1 {
@@ -440,7 +448,7 @@ footer {
 
 /* Estilos para las imágenes limitadas */
 .imagen-limitada2 {
-  width: 65%;
+  width: 40%;
   /* Ancho */
   height: auto;
   /* Altura automática */
@@ -774,6 +782,10 @@ footer {
   background-color: rgba(156, 122, 48, 0.563);
   color: #ffffff;
   border: none;
+  animation: shake 0.5s ease;
+}
+
+.textoMovimiento:hover {
   animation: shake 0.5s ease;
 }
 

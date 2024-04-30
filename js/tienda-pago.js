@@ -2,34 +2,51 @@ document.addEventListener("DOMContentLoaded", function () {
   const listaCarrito = document.getElementById("listaCarrito");
   const detalleProducto = document.getElementById("detalleProducto");
 
+  // Función para cargar los productos desde el archivo JSON
+  async function cargarProductosDesdeJSON() {
+    try {
+      const response = await fetch('../json/productos.json'); // Corregir la ruta del archivo JSON si es necesario
+      const productos = await response.json();
+      mostrarCarrito(productos);
+    } catch (error) {
+      console.error('Error al cargar los productos:', error);
+    }
+  }
+
   // Función para mostrar el carrito
-  function mostrarCarrito() {
+  function mostrarCarrito(productos) {
     const carrito = JSON.parse(sessionStorage.getItem("carrito")) || [];
     listaCarrito.innerHTML = "";
 
     carrito.forEach((producto, index) => {
-      const itemCarrito = document.createElement("li");
-      itemCarrito.className = "elementoHijo";
-      itemCarrito.innerHTML = `
-        <div class="row">
-          <div class="col-md-4">
-            <img src="${producto.imagen}" class="img-fluid" alt="${producto.nombre}" />
+      const productoEnCarrito = productos.find(p => p.id === producto.id);
+      if (productoEnCarrito) {
+        const itemCarrito = document.createElement("li");
+        itemCarrito.className = "elementoHijo";
+        itemCarrito.innerHTML = `
+          <div class="row">
+            <div class="col-md-4">
+              <img src="${productoEnCarrito.imagen}" class="img-fluid" alt="${productoEnCarrito.nombre}" />
+            </div>
+            <div class="col-md-8">
+              <h5>${productoEnCarrito.nombre}</h5>
+              <p><strong>Color:</strong> ${producto.color}</p>
+              <p><strong>Talla:</strong> ${producto.talla}</p>
+              <p><strong>Precio:</strong> $${productoEnCarrito.precio.toFixed(2)}</p>
+              <p><button class="btnEliminar btn btn-sm" data-index="${index}"><i class="bi bi-trash"></i></button></p>
+            </div>
           </div>
-          <div class="col-md-8">
-            <h5>${producto.nombre}</h5>
-            <p><strong>Color:</strong> ${producto.color}</p>
-            <p><strong>Talla:</strong> ${producto.talla}</p>
-            <p><strong>Precio:</strong> $${producto.precio.toFixed(2)}</p>
-            <p><button class="btnEliminar btn btn-sm" data-index="${index}"><i class="bi bi-trash"></i></button></p>
-          </div>
-        </div>
-        <hr />
-      `;
-      listaCarrito.appendChild(itemCarrito);
+          <hr />
+        `;
+        listaCarrito.appendChild(itemCarrito);
+      }
     });
 
     // Calcular total
-    const total = carrito.reduce((acc, producto) => acc + producto.precio, 0);
+    const total = carrito.reduce((acc, producto) => {
+      const productoEnCarrito = productos.find(p => p.id === producto.id);
+      return acc + productoEnCarrito.precio;
+    }, 0);
     const totalHTML = `<p class="card objetoCentrado1">Total: $${total.toFixed(2)}</p>`;
     listaCarrito.innerHTML += totalHTML;
 
@@ -45,16 +62,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function eliminarProducto(index) {
     let carrito = JSON.parse(sessionStorage.getItem("carrito")) || [];
-    carrito = carrito.filter((_, i) => i !== index);
-    sessionStorage.setItem("carrito", JSON.stringify(carrito));
-    mostrarCarrito();
-
+    carrito.splice(index, 1); // Eliminar el producto en el índice especificado
+    sessionStorage.setItem("carrito", JSON.stringify(carrito)); // Actualizar el sessionStorage
+    mostrarCarrito(carrito); // Pasar el array de productos al mostrarCarrito
     // Actualizar localStorage para sincronización
     localStorage.setItem("carrito", JSON.stringify(carrito));
-
     // Disparar evento personalizado para notificar a otras páginas
     const eliminarEvento = new CustomEvent("productoEliminado", {
-      detail: { index },
+        detail: { index },
     });
     document.dispatchEvent(eliminarEvento);
   }
@@ -99,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // Llamar a las funciones para mostrar el carrito y detalle
-  mostrarCarrito();
+  // Llamar a las funciones para cargar el carrito y detalle
+  cargarProductosDesdeJSON();
   mostrarDetalle();
 });

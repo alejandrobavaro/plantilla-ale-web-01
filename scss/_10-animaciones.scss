@@ -1,6 +1,12 @@
 //------------------ANIMACIONES---------------------------//
 
-.textoMovimiento{}
+.textoMovimiento {
+  // animation: shake 0.5s ease;
+}
+
+.textoMovimiento:hover {
+  animation: shake 0.5s ease;
+}
 
 /*-------------EFECTO SHAKE EN EL MENU AL PASAR EL MOUSE-------------*/
 .menu-link:hover {

@@ -58,6 +58,19 @@
   }
 }
 
+//IMAGEN FOOTER TAMAÑO PARA MOBILE// 
+
+/* Media query para pantallas menores o iguales a 767px */
+@media screen and (max-width: 767px) {
+  .imagen-limitada2 {
+    width: 100%; /* Establecer el ancho al 100% para ocupar el ancho del contenedor */
+    max-width: 30px; /* Establecer un tamaño máximo para la imagen */
+    height: auto; /* Altura automática para mantener la proporción */
+  }
+}
+
+//-------------------------------------------------------// 
+
 // /* Ajustes para el título (h1Titulo) en pantallas menores o iguales a 768px */
 // @media (max-width: 768px) {
 //   .h1Titulo {
