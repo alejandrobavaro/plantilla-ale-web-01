@@ -64,7 +64,7 @@
   <!---------------------------INICIO HEADER---------------------------->
   <header class="encabezado">
     <!---------------------------INICIO NAV---------------------------->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light flex-column">
       <div class="container-fluid">
         <!---------------Botón de menú hamburguesa----------------->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
@@ -97,8 +97,27 @@
   <!--------------------------------------------------------------------------->
 
 
+  
   <!---------------------------INICIO MAIN------------------------------------->
   <main>
+
+
+<!-- Agregar un campo de búsqueda -->
+<input type="text" id="buscarProducto" placeholder="Buscar producto..." />
+
+<!-- Agregar filtros por categoría -->
+<select id="filtroCategoria">
+  <option value="">Todas las categorías</option>
+  <option value="ropa">Ropa</option>
+  <option value="calzado">Calzado</option>
+  <!-- Agregar más opciones de filtro según tus necesidades -->
+</select>
+
+
+
+
+
+
 
 
     <!---------------------TITULO 1 - TIENDA----------------------------->
@@ -166,6 +185,14 @@
 
 
         <!-- PRODUCTOS AGREGADOS EN JS -->
+
+<!-- Agregar barra de descuento en algunos productos -->
+<div class="col producto" id="producto13" data-id="13">
+  <!-- Contenido del producto -->
+  <img src="../img/06-tienda/tienda1-.png" alt="Producto 1" />
+  <div class="oferta">Oferta! 30% de descuento por hoy</div>
+</div>
+
         <div class="col producto" id="producto1" data-id="1">
           <!-- Contenido del producto -->
         </div>
