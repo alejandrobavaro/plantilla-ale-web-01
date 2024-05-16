@@ -63,8 +63,7 @@ html {
 }
 
 body {
-  background: rgb(63, 4, 4);
-  background-image: url(../img/00-fondos/fondo1.png); /* Imagen de fondo */
+  background: rgb(62, 53, 14);
   background-repeat: no-repeat; /* No repetir la imagen de fondo */
   background-position: center; /* Posición de la imagen de fondo */
   background-size: cover; /* Ajusta la imagen al tamaño del body */
@@ -73,7 +72,7 @@ body {
 }
 
 p {
-  color: rgb(241, 225, 192);
+  color: rgb(255, 255, 255);
   font-size: medium;
 }
 
@@ -121,12 +120,12 @@ a {
   /* Enlace visitado */
 }
 a:link {
-  color: rgb(243, 206, 19);
+  color: rgb(207, 175, 161);
   text-decoration: none;
   /* Sin subrayado */
 }
 a:visited {
-  color: rgb(243, 189, 71);
+  color: rgb(207, 175, 161);
   text-decoration: none;
   /* Sin subrayado */
 }
@@ -196,7 +195,7 @@ a:hover {
 
 /* Estilos para el enlace del menú al pasar el mouse */
 .menu-link:hover {
-  color: rgb(205, 146, 146);
+  color: rgb(230, 215, 174);
 }
 
 .navbar-nav .nav-item.active .nav-link,
@@ -223,7 +222,7 @@ a:hover {
 
 /* Estilos para el botón de menú hamburguesa */
 .navbar-toggler .navbar-toggler-icon {
-  background-color: rgba(255, 170, 0, 0.78);
+  background-color: rgba(255, 255, 255, 0.78);
   border-radius: 1px;
 }
 
